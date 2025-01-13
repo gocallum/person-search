@@ -1,4 +1,4 @@
-'use client'
+/* 'use client'
 
 import * as React from "react"
 import { SearchCommand } from "@/components/search-command"
@@ -34,3 +34,4 @@ export default function SearchInput() {
   )
 }
 
+ */

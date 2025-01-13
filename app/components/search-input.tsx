@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import React, { useCallback } from 'react';
 import AsyncSelect from 'react-select/async';
@@ -44,3 +44,4 @@ export default function SearchInput() {
 
     );
 }
+ */

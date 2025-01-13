@@ -1,21 +1,23 @@
-'use client'
+'use client';
 
-import { updateUser } from '@/app/actions/actions'
-import { userFormSchema, User, UserFormData } from '@/app/actions/schemas'
-import { UserForm } from './user-form'
-import MutableDialog, { ActionState } from '@/components/mutable-dialog'
+import MutableDialog from '@/components/mutable-dialog';
+import { updateUser } from '@/app/actions/actions';
+import { userFormSchema, User, UserFormData } from '@/app/actions/schemas';
+import { UserForm } from './user-form';
 
 interface UserEditDialogProps {
-  user: User
+  user: User;
+  onUserUpdate: (updatedUser: User) => void;
 }
 
-export function UserEditDialog({ user }: UserEditDialogProps) {
-  const handleEditUser = async (data: UserFormData): Promise<ActionState<User>> => {
+export default function UserEditDialog({ user, onUserUpdate }: UserEditDialogProps) {
+  const handleEditUser = async (data: UserFormData) => {
+    const updatedUser = await updateUser(user.id, data);
+    onUserUpdate(updatedUser); // Propagate the updated user back to the parent
     try {
-      const updatedUser = await updateUser(user.id, data)
       return {
         success: true,
-        message: `User ${updatedUser.name} updated successfully`,
+        message: `User ${updatedUser.name} updated successfully.`,
         data: updatedUser,
       }
     } catch (error) {
@@ -28,6 +30,7 @@ export function UserEditDialog({ user }: UserEditDialogProps) {
 
   return (
     <MutableDialog<UserFormData>
+      key={user.id} // Ensures dialog refreshes for each user
       formSchema={userFormSchema}
       FormComponent={UserForm}
       action={handleEditUser}
